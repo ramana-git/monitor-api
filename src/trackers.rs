@@ -43,7 +43,7 @@ pub async fn history(pool: &Pool<ConnectionManager>, schema: &str, tid: &Uuid, c
     let mut conn = pool.get().await.unwrap();
     println!("Got connection");
     let result: Vec<HealthHistory> = conn
-        .simple_query(format!("select top {count} * from {schema}.HealthHistory where tid='{tid}'"))
+        .simple_query(format!("select top {count} * from {schema}.HealthHistory where tid='{tid}' order by checktime desc"))
         .await?
         .into_first_result()
         .await?

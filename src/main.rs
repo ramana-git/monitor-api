@@ -20,7 +20,7 @@ async fn main() {
         .route("/trackers", get(get_trackers))
         .route("/history/:id", get(get_history));
 
-    let port = env::var("PORT")
+    let port = env::var("SERVER_PORT")
         .ok()
         .and_then(|s| s.parse().ok())
         .unwrap_or(8888);
@@ -39,15 +39,15 @@ async fn root() -> &'static str {
 }
 
 async fn db_connect() -> Connection {
-    let server = match env::var("SERVER") {
+    let server = match env::var("DB_SERVER") {
         Ok(value) => value,
         Err(_e) => "localhost".to_owned(),
     };
-    let port = match env::var("PORT") {
+    let port = match env::var("DB_PORT") {
         Ok(value) => value,
         Err(_e) => "1433".to_owned(),
     };
-    let database = match env::var("DATABASE") {
+    let database = match env::var("DB_NAME") {
         Ok(value) => value,
         Err(_e) => "master".to_owned(),
     };
